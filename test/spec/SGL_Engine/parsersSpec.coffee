@@ -1,6 +1,6 @@
 define (require) ->
-    Pattern = require 'Pattern'
-    parsers = require 'parsers'
+    Pattern = require 'SQL_Engine/Pattern'
+    parsers = require 'SQL_Engine/parsers'
 
     describe "parsers", ->
       describe "txt", ->

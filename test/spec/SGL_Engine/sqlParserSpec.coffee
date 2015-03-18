@@ -1,166 +1,218 @@
 define (require) ->
-  Pattern = require 'Pattern'
-  parsers = require 'parsers'
-  sqlParser = require 'sqlParser'
-
+  sqlParser = require 'SQL_Engine/sqlParser'
   select = sqlParser.select
 
   describe "sqlParser", ->
-    operatop = ['<>', '>=', '<=', '>', '<', '=', 'like']
+    operator = ['<>', '>=', '<=', '>', '<', '=', 'like']
     it "'sqlParser' is defined", ->
       expect(sqlParser).toBeDefined()
     it "select *", ->
-      expect(sqlParser('select *')).toEqual(
-        select:
-          table: '*'
-          column: undefined
-        from:
+      expect(sqlParser.query('select *')).toEqual(
+        select: [{
           table: undefined
-        join:
-          table: undefined
-          column: undefined
-        where:
-          column: undefined
-          operator: undefined
-          value: undefined
+          column: '*'
+        }]
+        from: undefined
+        join: undefined
+        where: undefined
+
       )
     it "SELECT table.column", ->
-      expect(sqlParser('SELECT table.column')).toEqual(
-        select:
+      expect(sqlParser.query('SELECT table.column')).toEqual(
+        select: [{
           table: 'table'
           column: 'column'
-        from:
+        }]
+        from: undefined
+        join: undefined
+        where: undefined
+      )
+    it "SELECT column", ->
+      expect(sqlParser.query('SELECT column')).toEqual(
+        select: [{
           table: undefined
-        join:
+          column: 'column'
+        }]
+        from: undefined
+        join: undefined
+        where: undefined
+      )
+    it "SELECT table1.column, table2.column", ->
+      expect(sqlParser.query('SELECT table1.column, table2.column')).toEqual(
+        select: [{
+          table: 'table1'
+          column: 'column'
+        }, {
+          table: 'table2'
+          column: 'column'
+        }]
+        from: undefined
+        join: undefined
+        where: undefined
+      )
+    it "SELECT column1, column2", ->
+      expect(sqlParser.query('SELECT column1, column2')).toEqual(
+        select: [{
           table: undefined
-          column: undefined
-        where:
-          column: undefined
-          operator: undefined
-          value: undefined
+          column: 'column1'
+        }, {
+          table: undefined
+          column: 'column2'
+        }]
+        from: undefined
+        join: undefined
+        where: undefined
       )
     it "SELECT table.column FROM *", ->
-      expect(sqlParser('SELECT table.column FROM *')).toEqual(
-        select:
+      expect(sqlParser.query('SELECT table.column FROM *')).toEqual(
+        select:[{
           table: 'table'
           column: 'column'
-        from:
-          table: '*'
-        join:
-          table: undefined
-          column: undefined
-        where:
-          column: undefined
-          operator: undefined
-          value: undefined
+        }]
+        from: '*'
+        join: undefined
+        where: undefined
       )
     it "SELECT table.column FROM table", ->
-      expect(sqlParser('SELECT table.column FROM table')).toEqual(
-        select:
+      expect(sqlParser.query('SELECT table.column FROM table')).toEqual(
+        select: [{
           table: 'table'
           column: 'column'
-        from:
-          table: 'table'
-        join:
-          table: undefined
-          column: undefined
-        where:
-          column: undefined
-          operator: undefined
-          value: undefined
+        }]
+        from: ['table']
+        join: undefined
+        where: undefined
       )
-    it "SELECT table.column FROM table JOIN *", ->
-      expect(sqlParser('SELECT table.column FROM table JOIN *')).toEqual(
-        select:
+    it "SELECT table.column FROM table1, table2", ->
+      expect(sqlParser.query('SELECT table.column FROM table1, table2')).toEqual(
+        select: [{
           table: 'table'
           column: 'column'
-        from:
-          table: 'table'
-        join:
-          table: '*'
-          column: undefined
-        where:
-          column: undefined
-          operator: undefined
-          value: undefined
+        }]
+        from: ['table1', 'table2']
+        join: undefined
+        where: undefined
       )
-    it "SELECT table.column FROM table JOIN table", ->
-      expect(sqlParser('SELECT table.column FROM table JOIN table')).toEqual(
-        select:
+    it "SELECT table.column FROM table JOIN table1", ->
+      expect(sqlParser.query('SELECT table.column FROM table JOIN table1')).toEqual(
+        select: [{
           table: 'table'
           column: 'column'
-        from:
-          table: 'table'
-        join:
-          table: 'table'
-          column: undefined
-        where:
-          column: undefined
-          operator: undefined
-          value: undefined
+        }]
+        from: ['table']
+        join: 'table1'
+        where: undefined
       )
-    it "SELECT table.column FROM table JOIN table.column", ->
-      expect(sqlParser('SELECT table.column FROM table JOIN table.column')).toEqual(
-        select:
+    it "SELECT table.column FROM table JOIN table ON table.column = 5", ->
+      expect(sqlParser.query('SELECT table.column FROM table JOIN table ON table.column = 5')).toEqual(
+        select: [{
           table: 'table'
           column: 'column'
-        from:
-          table: 'table'
-        join:
-          table: 'table'
-          column: 'column'
+        }]
+        from: ['table']
+        join: 'table'
         where:
-          column: undefined
-          operator: undefined
-          value: undefined
-      )
-    it "SELECT table.column FROM table JOIN table.column WHERE column <= 5", ->
-      expect(sqlParser('SELECT table.column FROM table JOIN table.column WHERE column <= 5')).toEqual(
-        select:
-          table: 'table'
-          column: 'column'
-        from:
-          table: 'table'
-        join:
-          table: 'table'
-          column: 'column'
-        where:
-          column: 'column'
-          operator: '<='
+          comparable:
+            table: 'table'
+            column: 'column'
+          operator: '='
           value: 5
       )
+    it "SELECT column FROM table1 JOIN table2 ON table.column  = true", ->
+      expect(sqlParser.query('SELECT column FROM table1 JOIN table2 ON table.column  = true')).toEqual(
+        select: [{
+          table: undefined
+          column: 'column'
+        }]
+        from: ['table1']
+        join: 'table2'
+        where:
+          comparable:
+            table: 'table'
+            column: 'column'
+          operator: '='
+          value: true
+      )
+      it "SELECT column FROM table1 JOIN table2 ON table.column  = table1.column1", ->
+      expect(sqlParser.query('SELECT column FROM table1 JOIN table2 ON table.column  = table1.column1')).toEqual(
+        select: [{
+          table: undefined
+          column: 'column'
+        }]
+        from: ['table1']
+        join: 'table2'
+        where:
+          comparable:
+            table: 'table'
+            column: 'column'
+          operator: '='
+          value:
+            table: 'table1'
+            column: 'column1'
+      )
+    it "SELECT column FROM table1 JOIN table2 ON table.column  = 'aaaa'", ->
+      expect(sqlParser.query('SELECT column FROM table1 JOIN table2 ON table.column  = "aaaa"')).toEqual(
+        select: [{
+          table: undefined
+          column: 'column'
+        }]
+        from: ['table1']
+        join: 'table2'
+        where:
+          comparable:
+            table: 'table'
+            column: 'column'
+          operator: '='
+          value: 'aaaa'
+      )
+    it "SELECT column FROM table1 JOIN table2 WHERE table.column  = 'aaaa'", ->
+      expect(sqlParser.query('SELECT column FROM table1 JOIN table2 WHERE table.column  = "aaaa"')).toEqual(
+        select: [{
+          table: undefined
+          column: 'column'
+        }]
+        from: ['table1']
+        join: 'table2'
+        where:
+          comparable:
+            table: 'table'
+            column: 'column'
+          operator: '='
+          value: 'aaaa'
+      )
+    it "SELECT column FROM table1 WHERE table.column  = 'aaaa'", ->
+      expect(sqlParser.query('SELECT column FROM table1 WHERE table.column  = "aaaa"')).toEqual(
+        select: [{
+          table: undefined
+          column: 'column'
+        }]
+        from: ['table1']
+        join: undefined
+        where:
+          comparable:
+            table: 'table'
+            column: 'column'
+          operator: '='
+          value: 'aaaa'
+      )
     describe "test operatop", ->
-      operatop.forEach((arg) ->
-        srt = 'SELECT table.column FROM table JOIN table.column WHERE column ' + arg + 'a'
+      operator.forEach((arg) ->
+        srt = 'SELECT column FROM table1 WHERE table.column ' + arg + ' ' +'a'
         it srt, ->
-          expect(sqlParser(srt)).toEqual(
-            select:
-              table: 'table'
+          expect(sqlParser.query(srt)).toEqual(
+            select: [{
+              table: undefined
               column: 'column'
-            from:
-              table: 'table'
-            join:
-              table: 'table'
-              column: 'column'
+            }]
+            from: ['table1']
+            join: undefined
             where:
-              column: 'column'
+              comparable:
+                table: 'table'
+                column: 'column'
               operator: arg
               value: 'a'
           )
       )
-    it "SELECT table.column FROM table JOIN table.column WHERE column = true", ->
-      expect(sqlParser('SELECT table.column FROM table JOIN table.column WHERE column = true')).toEqual(
-        select:
-          table: 'table'
-          column: 'column'
-        from:
-          table: 'table'
-        join:
-          table: 'table'
-          column: 'column'
-        where:
-          column: 'column'
-          operator: '='
-          value: true
-      )
+
 

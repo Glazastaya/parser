@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+<div class="cont">
+    <button class="select">SELECT</button>
+    <input type="text" class="query" value="SELECT id FROM director JOIN movie ON movie.id  = director.id">
+
+    <script type="application/x-ejs" id="database">
+        <% Object.keys(bd).forEach(function (tableName) { %>
+        <table style="float:left;">
+            <thead>
+                <tr><th><%=tableName %></th></tr>
+            </thead>
+            <tbody>
+            <% Object.keys(bd[tableName][0]).forEach(function (tableColumn) { %>
+            <tr>
+                <td><%= tableColumn %></td>
+            </tr>
+            <% }) %>
+            </tbody>
+        </table>
+        <% }) %>
+
+    </script>
+    <script type="application/x-ejs" id="result">
+
+            <table>
+                <thead>
+                <tr>
+                    <% Object.keys(result[0]).forEach(function (tableName) { %>
+                    <th><%= tableName%></th>
+                    <% }) %>
+                </tr>
+                </thead>
+                <tbody>
+                <% result.forEach(function (tr) { %>
+                <tr>
+                    <% for(var prop in tr){%>
+
+                    <td><%= tr[prop]%></td>
+                    <% } %>
+                </tr>
+                <% }) %>
+                </tbody>
+            </table>
+    </script>
+    <div class="fullTable"></div>
+    <div class="result"></div>
+</div>
+<script data-main="src/main.js" src="node_modules/requirejs/require.js"></script>
+</body>
+
+</html>

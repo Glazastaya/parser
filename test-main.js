@@ -14,8 +14,17 @@ Object.keys(window.__karma__.files).forEach(function(file) {
 
 require.config({
   // Karma serves files under /base, which is the basePath from your config file
-  baseUrl: '/base',
-
+    baseUrl: '/base',
+    shim: {
+        jquery: {
+            exports: 'jquery'
+        }
+    },
+    paths: {
+        jquery: 'node_modules/jquery/jquery-1.11.2.min',
+        lodash: 'bower_components/lodash/lodash',
+        jade: 'node_modules/jade/jade'
+    },
   // dynamically load all test files
   deps: allTestFiles,
 

@@ -17,7 +17,10 @@ module.exports = function(config) {
     files: [
         'test-main.js',
         {pattern: 'test/**/*Spec.coffee', included: false},
-        {pattern: 'src/**/*.js', included: true}
+        {pattern: 'src/**/*.js', included: true},
+        {pattern: 'test/helpers/jquery.js', included: true},
+        {pattern: 'bower_components/lodash/lodash.js', included: false},
+        {pattern: 'test/helpers/*.js', included: true}
     ],
 
 

@@ -1,0 +1,325 @@
+@charset "utf-8";
+/*
+    Main site styles
+    Version: 01.08.14
+    Author: Fominyh Natalya
+    E-mail: Natalya.Fominyh@gmail.com
+    Structure
+--------------------------------------------
+1. Base style
+    - normalize.css
+    - reset.css
+    - базовые настройки
+2. basic template
+    -head
+    -substrate
+    -content
+    -sidePanel
+    -footer
+3. New.html
+    -comments
+
+/*1.Base style------------------------------*/
+/*__normalize.css__*/
+/*! normalize.css v2.1.3 | MIT License | git.io/normalize */
+
+/* ==========================================================================
+   HTML5 display definitions
+   ========================================================================== */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+    display: block;
+}
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+html {
+    font-family: sans-serif; /* 1 */
+    -ms-text-size-adjust: 100%; /* 2 */
+    -webkit-text-size-adjust: 100%; /* 2 */
+}
+a {
+    background: transparent;
+}
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+abbr[title] {
+    border-bottom: 1px dotted;
+}
+b,
+strong {
+    font-weight: bold;
+}
+dfn {
+    font-style: italic;
+}
+code,
+kbd,
+pre,
+samp {
+    font-family: monospace, serif;
+    font-size: 1em;
+}
+pre {
+    white-space: pre-wrap;
+}
+q {
+    quotes: "\201C" "\201D" "\2018" "\2019";
+}
+small {
+    font-size: 80%;
+}
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+sup {
+    top: -0.5em;
+}
+sub {
+    bottom: -0.25em;
+}
+
+/* ==========================================================================
+   Embedded content
+   ========================================================================== */
+img {
+    border: 0;
+}
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+legend {
+    border: 0;
+    padding: 0;
+}
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 100%;
+    margin: 0;
+}
+button,
+input {
+    line-height: normal;
+}
+button,
+select {
+    text-transform: none;
+}
+button,
+html input[type="button"], /* 1 */
+input[type="reset"],
+input[type="submit"] {
+    -webkit-appearance: button; /* 2 */
+    cursor: pointer; /* 3 */
+}
+button[disabled],
+html input[disabled] {
+    cursor: default;
+}
+input[type="checkbox"],
+input[type="radio"] {
+    padding: 0; /* 2 */
+}
+input[type="search"] {
+    -webkit-appearance: textfield;
+}
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    padding: 0;
+}
+hr {
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
+}
+textarea {
+    overflow: auto; /* 1 */
+    vertical-align: top; /* 2 */
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* --------------- reset.css --------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+nav ul {
+    list-style:none;
+}
+img, input, button {
+    -ms-interpolation-mode: bicubic;
+}
+button,
+input {
+    line-height: normal;
+    border: 1px solid #808080;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 0 20px;
+    height: 30px;
+}
+input {
+    width: 700px;
+}
+@media print {
+    * {
+        text-shadow: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+    img {
+        max-width: 100% !important;
+    }
+    @page  {
+        margin: 0.5cm;
+    }
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
+input[type="text"]:focus,
+input[type="search"]:focus,
+input[type="button"]:focus,
+input[type="submit"]:focus,
+textarea:focus{
+    outline: none;
+
+}
+
+a:hover,
+a:focus{
+    outline: none;
+    border: none;
+
+}
+ul li{
+    vertical-align: top;
+}
+/* --------------- /reset.css --------------- */
+
+/* --------------- базовые настройки ---------*/
+
+h1 {
+
+    color: #4553a4;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    font-size: 20px;
+}
+
+html {
+    overflow-y: scroll;
+}
+html, body {
+    height: 100%;
+    width: 100%;
+}
+body {
+    line-height: 1;
+    color: #000;
+    text-align: left;
+    font: 14px Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+    background: #fff;
+
+}
+input, select, button, textarea {
+    font-family: Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+    vertical-align: top;
+}
+ul li { list-style: none;}
+p{
+    line-height: 130%;
+}
+a {
+    color: #000;
+}
+a:hover {
+    color: #4553a4;
+}
+
+
+.cont {
+    width: 1000px;
+    margin: 100px auto 0;
+    position: relative;
+    text-align: center;
+}
+
+
+a:hover,
+a:focus {
+    color: #4553a4;
+}
+.questions_cont {
+    border: 1px solid #000000;
+    width: 400px;
+}
+.question_block {
+    border: 1px solid blue;
+
+}
+.questions_category li {
+    display: inline-block;
+    vertical-align: top;
+
+    height: 30px;
+    background-color: red;
+    margin-right: 10px;
+}
+table {
+    border: 1px blue solid;
+
+}
+table td, th {
+    padding: 3px;
+    border: 1px blue solid;
+}
+
+
+
+
+
+
+
+
+

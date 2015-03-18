@@ -1,5 +1,5 @@
 define (require) ->
-  Pattern = require 'Pattern'
+  Pattern = require 'SQL_Engine/Pattern'
   pattern = new Pattern((a) -> a)
   describe "Pattern", ->
     it "Pattern is defined", ->
